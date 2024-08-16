@@ -15,11 +15,12 @@
 ## 👨‍🏫 프로젝트 소개
 <h4>2D Top-Down 뷰의 로그라이크 RPG 게임입니다. 
    
-## 📚️ 기술스택
+## 📚️ 개발 환경 및 타겟 플랫폼
 
 ### ✔️ Language: C#
 ### ✔️ Engine: Unity_2022.3.17f
 ### ✔️ Editor: Visual Studio 2022_17.9.6
+### ✔️ Platform : PC / itch.io
 
 ## 🎮 게임소개
 - 🪓게임이름 
@@ -43,9 +44,9 @@
 
 ## 👨‍👨‍👦 팀소개
 - 팀장 : 이경현 - Player, Inventory, Item, Shop , GameManager
-- 부팀장 : 김민우 - Monster, Clock & Tax System , Stage 제작 및 Light 설정 , Manual
+- 부팀장 : 김민우 - Monster, Clock & Tax System, Light, Manual, CutScene
 - 팀원 : 김신우 - Boss, NPC, Stat System, Battle System , Character System
-- 팀원 : 최세은 - Stage Move, Inchant System, Game Save·Load, Dialogue & Selection System , Monster Spawner , Player Skill 
+- 팀원 : 최세은 - Stage Move, Inchant, Game Save·Load, Dialogue & Selection, Monster Spawner, Player Skill 
 
 
 ## 프로젝트 계기
