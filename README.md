@@ -32,6 +32,8 @@
   - https://seeun0815.itch.io/barbarians-smash-everything
 
 - 🕹️ 조작법
+  <img src = "https://github.com/user-attachments/assets/5a023717-6535-408b-8610-d2e4205c171e">
+
   - WASD : 플레이어를 상하좌우 방향으로 이동시킵니다.
   - Shift + WASD : 플레이어는 shift 키를 누른 상태로 이동하여 질주할 수 있습니다. 
   - E : E 버튼을 누르면 인벤토리를 열 수 있습니다. 장착형 아이템은 드래그&드랍을 통해, 소비형 아이템은 마우스 우클릭을 통해 사용할 수 있습니다.
@@ -40,10 +42,10 @@
 
 
 ## 👨‍👨‍👦 팀소개
-- 팀장 : 이경현 - Player, Inventory, Item 
-- 부팀장 : 김민우 - Monster, Clock, Stage 제작 및 Light 설정
-- 팀원 : 김신우 - Boss, NPC, Stat System, Battle System
-- 팀원 : 최세은 - Stage 이동, Game Save·Load, 대화·선택지, Monster Spawner
+- 팀장 : 이경현 - Player, Inventory, Item, Shop
+- 부팀장 : 김민우 - Monster, Clock & Tax System , Stage 제작 및 Light 설정 , Manual
+- 팀원 : 김신우 - Boss, NPC, Stat System, Battle System , Character System
+- 팀원 : 최세은 - Stage Move, Inchant System, Game Save·Load, Dialogue & Selection System , Monster Spawner , Player Skill 
 
 
 ## 프로젝트 계기
