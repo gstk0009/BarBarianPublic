@@ -76,9 +76,6 @@
 
 
 
-- 기능 4
-
-
 ## ⏲️ 개발기간
 - 2024.06.27(목) ~ 2024.08.20(화)
  ![image](https://github.com/user-attachments/assets/87bec44d-163c-44a2-8b2b-fdeb7b55e0c4)
