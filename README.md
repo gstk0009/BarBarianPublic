@@ -42,7 +42,7 @@
 
 
 ## 👨‍👨‍👦 팀소개
-- 팀장 : 이경현 - Player, Inventory, Item, Shop
+- 팀장 : 이경현 - Player, Inventory, Item, Shop , GameManager
 - 부팀장 : 김민우 - Monster, Clock & Tax System , Stage 제작 및 Light 설정 , Manual
 - 팀원 : 김신우 - Boss, NPC, Stat System, Battle System , Character System
 - 팀원 : 최세은 - Stage Move, Inchant System, Game Save·Load, Dialogue & Selection System , Monster Spawner , Player Skill 
