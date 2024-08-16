@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f102ee4318e4024fa323d7e54b9b69e, type: 3}
+  m_Name: RangedPosionSkill
+  m_EditorClassIdentifier: 
+  skillType: 0
+  SkillSound: {fileID: 0}
+  SkillName: "\uC0B4\uC810 \uD3ED\uBC1C"
+  CoolTime: 5
+  CastTime: 0.8
+  ManaAmout: 15
+  particlePrefab: {fileID: 2445161335657218580, guid: ee4f51977af12da42a789150dc987c10, type: 3}
+  yOffset: 0.2
+  xOffset: 0.1
+  forwardOffset: 0
+  Damage: 1.5
+  Range: 0
+  enchantType: 3
+  hitBoxSize: {x: 1.3, y: 1.3}
+  PoisionDamageRate: 16
+  PoisonDuration: 10
+  FrozenSlowRate: 2
+  FrozenDuration: 10
+  EnemyLayer:
+    serializedVersion: 2
+    m_Bits: 8320
