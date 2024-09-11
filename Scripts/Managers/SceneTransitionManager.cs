@@ -29,6 +29,12 @@ public class SceneTransitionManager : Singleton<SceneTransitionManager>
         if (Player.Instance != null)
             Player.Instance.isPlayerInteracting = true;
 
+        // 씬을 이동할 때 npc에 대한 데이터 초기화 
+        if (GameManager.instance.SpawnersManager != null)
+        {
+            GameManager.instance.SpawnersManager.NPCSpawner.ResetData();
+        }
+
         yield return new WaitUntil(() => SoundManager.Instance != null);
         SoundManager.Instance.SetSceneBgm(sceneNum);
 
@@ -57,11 +63,11 @@ public class SceneTransitionManager : Singleton<SceneTransitionManager>
             }
          
         }
-        else if (sceneNum == (int)SceneNumber.VillageScene) // 마을 씬
+        else if (sceneNum == (int)SceneNumber.VillageScene)
         {
             GameManager.Instance.MoveStageController.SettingCameraPos();
 
-            spawnPos = GameManager.Instance.MoveStageController.GetDungeoToVillagePos(); // 플레이어가 죽었을 때에는 X
+            spawnPos = GameManager.Instance.MoveStageController.GetDungeoToVillagePos();
             
             if (SelectSaveFiles.isStartGame) // 캐릭터 선택창 -> 마을 첫 입성
             {
@@ -84,7 +90,4 @@ public class SceneTransitionManager : Singleton<SceneTransitionManager>
         if (Player.Instance != null && !DirectorController.isPlayingCutScene)
             Player.Instance.isPlayerInteracting = false;
     }
-
-    
-
 }

@@ -54,7 +54,7 @@ public class ItemSlotUIs : BaseItemSlotUI
 
         // 드랍한 곳에 아이템이 있는 경우 : 교환
         if (other.HasItem)
-            SetItem(other.iconImage.sprite);
+            SetItem(other.iconImage.sprite, other.itemData);
         // 없는 경우 : 이동
         else
             RemoveItem();
@@ -105,16 +105,10 @@ public class ItemSlotUIs : BaseItemSlotUI
 
     public override void RemoveItem()
     {
-        if(iconImage != null)
-            iconImage.sprite = null;
+        base.RemoveItem();
 
-        itemData = null; // 일반 itemData도 null로 설정
-        itemAmount = 0;
-
-        if(TypeBackgroundIamge != null)
+        if (TypeBackgroundIamge != null)
             TypeBackgroundIamge.gameObject.SetActive(false);
-        HideIcon();
-        HideText();
     }
 
     private void SetEquipmentSlot(BaseItemSlotUI other, ItemData data)

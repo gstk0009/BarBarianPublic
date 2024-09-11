@@ -85,23 +85,32 @@ public class MonsterStat : BaseStat
 
 
     //Monster 피격 이벤트
-    public override void TakeDamage(float damageAmount, EnchantType type = EnchantType.None)
+    public override void TakeDamage(float damageAmount, bool isSkill = false, EnchantType type = EnchantType.None)
     {
-        base.TakeDamage(damageAmount);
+        // 1번 튜토리얼이 진행 중일 때는 몬스터에게 데미지가 안 들어가도록. 
+        if (!DT_CheckAttackState.isTutorialing01)
+        {
+            base.TakeDamage(damageAmount);
 
-        //피격받는 캐릭터의 방어력에 비례한 데미지 경감 계산
-        float realDamage = Mathf.Max(damageAmount - def.curValue, 1); //방어력이 공격력보다 높으면, 1데미지만 들어가도록 계산
+            if (HP.curValue <= 0) return;
 
-        HP.SubtractCurValue(realDamage); //damaageAmount 대신 경감데미지를 넣는다
-
-
-        //UI에 데미지 표시;
-        GameObject Text = Instantiate(DamageText, transform.position, Quaternion.identity);
-        Text.GetComponent<DamageText>().SetTextColor(type);
-        Text.GetComponent<DamageText>().damage = (int)realDamage;
-
-        if (HP.curValue >= 0)
             StartCoroutine(DamageFlash());
+
+            //TODO: 피격받는 캐릭터의 방어력에 비례한 데미지 경감 계산
+            float realDamage = Mathf.Max(damageAmount - def.curValue, 1); //방어력이 공격력보다 높으면, 1데미지만 들어가도록 계산
+
+            HP.SubtractCurValue(realDamage); //damaageAmount 대신 경감데미지를 넣는다
+
+            //UI에 데미지 표시;
+            GameObject createDamageText = ObjectPool.Instance.SpawnFromPool("DamageText");
+            createDamageText.transform.position = gameObject.transform.position;
+            DamageTextManager Damage = createDamageText.GetComponent<DamageTextManager>();
+
+            Damage.damage = (int)realDamage;
+            Damage.SetTextColor(type);
+
+            createDamageText.SetActive(true);
+        }
     }
 
     public IEnumerator DamageFlash()
@@ -127,6 +136,11 @@ public class MonsterStat : BaseStat
     //Die 애니메이션 이벤트로 연결
     public void Despawn()
     {
+        if (DT_CheckSkilledMonsters.isTutorialing02 && DT_CheckSkilledMonsters.checkMonsterCnt < 5)
+        {
+            DT_CheckSkilledMonsters.checkMonsterCnt++;
+        }
+
         int monsterLayer = 7;
         int bossLayer = 13;
         if (gameObject.layer == monsterLayer)

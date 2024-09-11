@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class TaxOffice : MonoBehaviour
 {
-
-
-    int[] lineX = new int[] { 0, 17, 18, 19 };
-    int[] lineY = new int[] { 0, 17, 18, 19 };
+    int[] lineX = new int[] { 0, 17, 18, 19 ,23};
+    int[] lineY = new int[] { 0, 17, 18, 19 ,23};
     public InteractionEvent interaction;
 
     private void Start()
@@ -27,7 +25,11 @@ public class TaxOffice : MonoBehaviour
     {
         if (ClockSystem.Dday % GameManager.Instance.TaxManager.TaxDue == 0) // 세금 당일
         {
-            return 3;
+            if (ClockSystem.Dday == DataManager.Instance.currentPlayer.lastPayment)
+                return 4;
+    
+            else
+                return 3;
         }
         else if (ClockSystem.Dday % GameManager.Instance.TaxManager.TaxDue < GameManager.Instance.TaxManager.TaxDue - 1) // 평상 시
             return 1;

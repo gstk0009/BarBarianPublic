@@ -31,7 +31,7 @@ public class AttackSkill : SkillBase
 
         if (Player.Instance.playerStat.HP.curValue > ManaCost)
         {
-            Player.Instance.playerStat.TakeDamage(ManaCost + Player.Instance.playerStat.Def.curValue/2);
+            Player.Instance.playerStat.TakeDamage(ManaCost + Player.Instance.playerStat.Def.curValue/2, true);
             canSkill = true;
         }
         else canSkill = false;

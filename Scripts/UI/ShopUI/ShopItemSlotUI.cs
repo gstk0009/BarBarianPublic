@@ -55,14 +55,6 @@ public class ShopItemSlotUI : MonoBehaviour
             highlightGo.SetActive(false);
     }
 
-    public void SetHighlightOnTop(bool value)
-    {
-        if (value)
-            highlightRect.SetAsLastSibling();
-        else
-            highlightRect.SetAsFirstSibling();
-    }
-
     public void SetItemAccessibleState(bool value)
     {
         if (IsAccessible == value) return;

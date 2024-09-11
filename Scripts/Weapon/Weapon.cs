@@ -66,6 +66,7 @@ public class Weapon : MonoBehaviour
 
         if (hit != null)
         {
+            int length = hit.Length;
             foreach (var monster in hit)
             {
                 Vector3 knockbackDirection = monster.transform.position - transform.position;

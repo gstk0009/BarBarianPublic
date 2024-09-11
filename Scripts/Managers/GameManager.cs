@@ -32,6 +32,7 @@ public class GameManager : Singleton<GameManager>
     public TaxManager TaxManager;
     public BuyOrSellManager buyOrSellManager;
     public Uis Uis;
+    public CameraController cameraController;
 
     public bool canOpenInventory;
 

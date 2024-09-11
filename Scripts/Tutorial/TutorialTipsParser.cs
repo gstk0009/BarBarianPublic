@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialTipParser : MonoBehaviour
+public class TutorialTipsParser : MonoBehaviour
 {
     public TutorialTips[] Parse(string filename)
     {

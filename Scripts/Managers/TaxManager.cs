@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class TaxManager : MonoBehaviour
 {
-    public int lastPayment = 0;
+    // public int lastPayment = 0;
     public int TaxDue = 3;
     public static Action OnCutSceneEvent;
 
@@ -40,7 +40,7 @@ public class TaxManager : MonoBehaviour
 
         if (DataManager.Instance.currentPlayer.gold >= price) // 돈 있을 때
         {
-            lastPayment = ClockSystem.Dday;
+            DataManager.Instance.currentPlayer.lastPayment = ClockSystem.Dday;
             DataManager.Instance.currentPlayer.gold -= price;
 
             DialogueManager.skipDialogueNum = 22;
@@ -53,7 +53,7 @@ public class TaxManager : MonoBehaviour
 
     public void CheckTaxPayment()
     {
-        if(ClockSystem.Dday - lastPayment <= TaxDue) // 세금 냄
+        if(ClockSystem.Dday - DataManager.Instance.currentPlayer.lastPayment <= TaxDue) // 세금 냄
         {
             return;
         }

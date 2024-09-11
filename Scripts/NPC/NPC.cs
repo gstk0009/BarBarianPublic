@@ -33,6 +33,7 @@ public class NPC : DungeonThings
     [SerializeField] public NPCType npcType;
     [SerializeField]public Collider2D otherObject;
     [SerializeField]public AttackType attackType;
+    [SerializeField] public GameObject npcHpBar;
 
     public LayerMask atkTarget;     // Lay가 충돌할 레이어(공격할 대상)
 
@@ -143,6 +144,14 @@ public class NPC : DungeonThings
         if(npcType == NPCType.Spear)
         {
             SoundManager.Instance.PlaySoundEffect((int)SoundEffects.SpearSkill, 1, 1, false);
+        }
+        if (npcType == NPCType.Bow)
+        {
+            SoundManager.Instance.PlaySoundEffect((int)SoundEffects.BowSkill, 1, 2, false);
+        }
+        if (npcType == NPCType.Wand)
+        {
+            SoundManager.Instance.PlaySoundEffect((int)SoundEffects.WandSkill, 1, 1, false);
         }
     }
 

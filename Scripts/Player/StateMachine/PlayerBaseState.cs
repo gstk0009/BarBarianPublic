@@ -20,7 +20,8 @@ public class PlayerBaseState : IState
     public static bool isAttackState = false;
     protected float Timer;
     protected float DelayTime;
-
+    protected float needDashStamina = 45f;
+    protected float needRunStamina = 10f;
     protected Vector2 movementInput;
 
     public PlayerBaseState(PlayerStateMachine stateMachine)
@@ -62,7 +63,8 @@ public class PlayerBaseState : IState
 
     public virtual void Update()
     {
-
+        if (stateMachine.currentState != stateMachine.RunState && !Player.Instance.isPlayerInteracting)
+            stateMachine.player.playerStat.Stamina.AddCurValue(0.3f);
     }
 
     protected virtual void AddInputActionsCallbacks()
@@ -123,8 +125,11 @@ public class PlayerBaseState : IState
     protected virtual void OnRunPerformed(InputAction.CallbackContext context)
     {
         if (!isAttack && !isDefence && !isSkill && !stateMachine.player.isOpenInventory && isAttackState && !isDash
-            && !PlayerSkillManager.Instance.isSkillCooltime[(int)SkillIndex.Dash])
+            && !PlayerSkillManager.Instance.isSkillCooltime[(int)SkillIndex.Dash] && stateMachine.player.playerStat.Stamina.curValue >= needDashStamina)
+        {
+            stateMachine.player.playerStat.Stamina.SubtractCurValue(needDashStamina);
             stateMachine.ChangeState(stateMachine.DashState);
+        }
     }
 
     protected virtual void OnWalkCanceled(InputAction.CallbackContext context)

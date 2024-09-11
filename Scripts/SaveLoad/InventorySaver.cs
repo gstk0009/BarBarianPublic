@@ -55,6 +55,7 @@ public class InventorySaver : MonoBehaviour
 
     public void SetInventoryData(List<InventoryItemData> inventoryData)
     {
+        Player.Instance.playerStat.InitializeStats();
         foreach (var data in inventoryData)
         {
             ItemData itemData = GameManager.Instance.itemManager.GetItemDataById(data.itemId);

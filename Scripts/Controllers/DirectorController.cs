@@ -31,6 +31,8 @@ public class DirectorController : MonoBehaviour
     private void OnCutSceneStopped(PlayableDirector director)
     {
         isPlayingCutScene = false;
+        Player.Instance.isPlayerInteracting = false;
+        Player.Instance.playerInputController.playerMouseAndInteractActions.Enable();
         GameManager.Instance.CurrentStageIdx = 0;
         GameManager.Instance.MoveStageController.SettingCameraPos();
         director.stopped -= OnCutSceneStopped;

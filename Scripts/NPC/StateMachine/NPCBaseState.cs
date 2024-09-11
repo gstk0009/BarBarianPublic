@@ -41,7 +41,7 @@ public class NPCBaseState : IState
         if (!stateMachine.NPC.isDeadState)
         {
             stateMachine.NPC.otherObject = Physics2D.OverlapCircle(stateMachine.NPC.transform.position, stateMachine.NPC.npcStat.AtkRange.curValue, stateMachine.NPC.atkTarget);
-            if (stateMachine.NPC.npcStat.HP.curValue <= 0)
+            if ((int)stateMachine.NPC.npcStat.HP.curValue <= 0)
             {
                 stateMachine.ChangeState(stateMachine.DeadState);
             }

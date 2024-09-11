@@ -42,7 +42,7 @@ public class BossBaseState : IState
 
     private void OnDie()
     {
-        if (stateMachine.Boss.stats.HP.curValue <= 0 && !stateMachine.Boss.IsDead)
+        if ((int)stateMachine.Boss.stats.HP.curValue <= 0 && !stateMachine.Boss.IsDead)
         {
             stateMachine.Boss.animator.Play(stateMachine.Boss.AnimationData.DeadAnim);
             stateMachine.Boss.IsDead = true;

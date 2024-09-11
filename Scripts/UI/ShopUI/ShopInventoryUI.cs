@@ -12,6 +12,7 @@ public class ShopInventoryUI : MonoBehaviour
     [SerializeField] private RectTransform slotArea;
     [SerializeField] private float xOffset;
     [SerializeField] private float yOffset;
+    [SerializeField] private GameObject equipmentSlotPosition;
 
     private List<ShopItemSlotUI> shopSlotUIList = new List<ShopItemSlotUI>();
 
@@ -111,6 +112,7 @@ public class ShopInventoryUI : MonoBehaviour
             pos.y -= yOffset;
             rt.anchoredPosition = pos;
         }
+        equipmentSlotPosition.transform.SetAsLastSibling();
     }
 
     public void SetPlayerGold(int gold)

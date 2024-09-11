@@ -28,7 +28,7 @@ public class MonsterBaseState :  IState
 
     public virtual void Update()
     {
-        if (Player.Instance.isPlayerInteracting)
+        if (Player.Instance.isPlayerInteracting || DT_CheckAttackState.isTutorialing01)
         {
             stateMachine.ChangeState(stateMachine.IdleState);
         }

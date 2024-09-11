@@ -248,6 +248,7 @@ public class DialogueManager : MonoBehaviour
         replaceText = replaceText.Replace("'", ",");
         replaceText = replaceText.Replace("-", "\n");
         replaceText = replaceText.Replace("ⓖ", "<color=#919191>");
+        replaceText = replaceText.Replace("ⓑ", "<color=#6CF6FF>");
         replaceText = replaceText.Replace("ⓦ", "<color=#ffffff>");
         replaceText = replaceText.Replace("@", DataManager.Instance.currentPlayer.name);
 

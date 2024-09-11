@@ -129,7 +129,7 @@ public class LoadSceneManager : MonoBehaviour
 
     void SetTipsDictionary()
     {
-        TutorialTipParser parser = GetComponent<TutorialTipParser>();
+        TutorialTipsParser parser = GetComponent<TutorialTipsParser>();
         if (parser == null)
         {
             return;

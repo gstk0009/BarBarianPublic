@@ -52,7 +52,7 @@ public class ItemSpawnManager : MonoBehaviour
             // 포션
             SetItem(potion, monsterObj);
         }
-        else { }
+        //else { }
     }
 
     public void DropBossItem(GameObject bossObj)

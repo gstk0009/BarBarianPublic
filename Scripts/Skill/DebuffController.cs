@@ -33,7 +33,7 @@ public class DebuffController : Singleton<DebuffController>
             if (targetGameObject == null || !targetGameObject.activeSelf)
                 yield break;
 
-            target.TakeDamage(target.HP.maxValue / damageRate, EnchantType.Poison);
+            target.TakeDamage(target.HP.maxValue / damageRate, false, EnchantType.Poison);
             time += 1f;
 
             yield return wfs_1;
@@ -52,7 +52,7 @@ public class DebuffController : Singleton<DebuffController>
 
     IEnumerator FrozenState(BaseStat target, float slowRate, float duration)
     {
-        if(target != null)
+        if(target != null && target.runSpeed!= null && target.attackRate !=null)
         {
             float time = 0f;
 

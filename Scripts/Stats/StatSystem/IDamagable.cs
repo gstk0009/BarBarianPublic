@@ -2,7 +2,7 @@
 public interface IDamagable
 {
     //피격 이벤트 함수
-    void TakeDamage(float damageAmount, EnchantType type = EnchantType.None);
+    void TakeDamage(float damageAmount, bool isSkill = false, EnchantType type = EnchantType.None);
 
     void CalDamage(BaseStat stat);
 

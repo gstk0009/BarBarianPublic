@@ -55,10 +55,11 @@ public class ObjectPool : MonoBehaviour
 
         GameObject obj = PoolDictionary[tag].Dequeue();
         PoolDictionary[tag].Enqueue(obj);
-        
-        if (obj.activeInHierarchy && tag != "Item") // 모든 오브젝트 풀 사용중인 상태
+
+        if (obj.activeInHierarchy && tag != "Item" && tag != "DamageText")
+        {
             return null;
-        
+        }
         return obj;
     }
 

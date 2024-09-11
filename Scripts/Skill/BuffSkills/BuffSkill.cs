@@ -41,11 +41,16 @@ public class BuffSkill : SkillBase
         float defaultHP = Player.Instance.playerStat.HP.maxValue - BuffHp;
         float newCurValue = Player.Instance.playerStat.HP.curValue * (defaultHP / Player.Instance.playerStat.HP.maxValue);
 
-        Player.Instance.playerStat.HP.SubtractMaxValue(BuffHp);
-        Player.Instance.playerStat.HP.curValue = newCurValue;
+        if (!Player.Instance.isPlayerInteracting)
+        {
+            Player.Instance.playerStat.HP.SubtractMaxValue(BuffHp);
+            Player.Instance.playerStat.HP.curValue = newCurValue;
 
-        Player.Instance.playerStat.Def.SubtractCurValue(BuffDef);
-        Player.Instance.playerStat.STR.SubtractCurValue(BuffAtk);
+            Player.Instance.playerStat.Def.SubtractMaxValue(BuffDef);
+            Player.Instance.playerStat.Def.SubtractCurValue(BuffDef);
+            Player.Instance.playerStat.STR.SubtractMaxValue(BuffAtk);
+            Player.Instance.playerStat.STR.SubtractCurValue(BuffAtk);
+        }
 
         if (Player.Instance.playerStat.HP.curValue <= 0)
         {
@@ -62,7 +67,7 @@ public class BuffSkill : SkillBase
 
         if (Player.Instance.playerStat.HP.curValue > damage)
         {
-            Player.Instance.playerStat.TakeDamage(ManaAmout);
+            Player.Instance.playerStat.TakeDamage(ManaAmout, true);
             canSkill = true;
             if (!isSkillUsed)
             {

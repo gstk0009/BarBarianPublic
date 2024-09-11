@@ -18,7 +18,7 @@ public class DialogueController : MonoBehaviour
     }
 
     // 탐지된 npc와의 대화를 출력해주는 메서드
-    public void ShowDialogueWithNPC(InteractionEvent interactionEvent)
+    public void ShowDialogueWithDetectedObj(InteractionEvent interactionEvent)
     {
         detectedObj = DialogueDetector.detectedResult;
 
@@ -28,23 +28,6 @@ public class DialogueController : MonoBehaviour
             {
                 interactionUI.gameObject.SetActive(false);
                 isDialogueInteracting = true;
-                GameManager.Instance.DialogueManager.GetDialogues(detectedObj.GetDialogue(), interactionEvent);
-                GameManager.Instance.DialogueManager.ShowDialogue();
-            }
-        }
-    }
-
-    public void ShowDialogueWithObj(InteractionEvent interactionEvent)
-    {
-        detectedObj = DialogueDetector.detectedResult;
-
-        if (!DialogueManager.isDialogue && !Player.Instance.isPlayerInteracting)
-        {
-            if (Input.GetKeyDown(KeyCode.F)) // F를 눌러야 실행
-            {
-                interactionUI.gameObject.SetActive(false);
-                isDialogueInteracting = true;
-
                 GameManager.Instance.DialogueManager.GetDialogues(detectedObj.GetDialogue(), interactionEvent);
                 GameManager.Instance.DialogueManager.ShowDialogue();
             }

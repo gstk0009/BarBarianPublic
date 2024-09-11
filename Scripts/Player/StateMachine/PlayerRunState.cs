@@ -33,6 +33,14 @@ public class PlayerRunState : PlayerBaseState
             stateMachine.ChangeState(stateMachine.IdleState);
             return;
         }
+
+        if (stateMachine.player.playerStat.Stamina.curValue < 2f)
+        {
+            stateMachine.ChangeState(stateMachine.WalkState);
+            return;
+        }
+
+        stateMachine.player.playerStat.Stamina.SubtractCurValue(0.5f);
         runWithAttackOrDefence();
         updateRunAnim();
         base.Update();

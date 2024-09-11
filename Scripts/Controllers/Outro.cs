@@ -5,6 +5,7 @@ public class Outro : MonoBehaviour
 {
     InteractionEvent interaction;
     [SerializeField] public GameObject playerRespawnPosition;
+    [SerializeField] public Camera UIcamera;
     private bool isPlayingOutro = false;
 
     private void Start()
@@ -14,7 +15,7 @@ public class Outro : MonoBehaviour
         GameManager.Instance.Outro = this;
         interaction = GetComponent<InteractionEvent>();
         if (SceneTransitionManager.Instance.sceneManagerCanvas.worldCamera == null)
-            SceneTransitionManager.Instance.sceneManagerCanvas.worldCamera = Camera.main;
+            SceneTransitionManager.Instance.sceneManagerCanvas.worldCamera = UIcamera;
     }
 
     public void PlayingOutro()
@@ -37,7 +38,7 @@ public class Outro : MonoBehaviour
         if (!isPlayingOutro) // 씬 이동 없는 아웃트로 실행 / 마을 씬에서 마을 씬으로 재배치 시 활용
         {
             Player.Instance.isPlayerInteracting = true;
-
+            Player.Instance.playerInputController.playerMouseAndInteractActions.Disable();
             isPlayingOutro = true;
             StartCoroutine(FadeOutAndPlayingOutro2());
         }

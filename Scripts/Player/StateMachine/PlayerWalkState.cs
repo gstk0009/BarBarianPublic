@@ -16,7 +16,7 @@ public class PlayerWalkState : PlayerBaseState
         base.Enter();
         Timer = 0;
         DelayTime = 0.2f;
-        if (inputController.playerMovementActions.Run.IsPressed() && !isAttackState)
+        if (inputController.playerMovementActions.Run.IsPressed() && !isAttackState && stateMachine.player.playerStat.Stamina.curValue > 2f)
         {
             stateMachine.ChangeState(stateMachine.RunState);
             return;
@@ -39,7 +39,7 @@ public class PlayerWalkState : PlayerBaseState
 
     protected override void OnRunPerformed(InputAction.CallbackContext context)
     {
-        if (!isAttackState)
+        if (!isAttackState && stateMachine.player.playerStat.Stamina.curValue >= needRunStamina)
             stateMachine.ChangeState(stateMachine.RunState);
         base.OnRunPerformed(context);
     }

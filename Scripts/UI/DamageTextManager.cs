@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DamageText : MonoBehaviour
+public class DamageTextManager : MonoBehaviour
 {
     public float textSpeed; //텍스트 이동속도
     public float alphaSpeed; //투명도 변환속도
@@ -12,17 +10,12 @@ public class DamageText : MonoBehaviour
     Color alpha;
     public int damage;
 
+    private Color initColor = new Color(1f, 0.3f, 0.3f, 1f);
+    private Color playerColor = new Color(0.25f, 0.4f, 1f, 1f);
+
     private void Awake()
     {
         text = GetComponent<TextMeshPro>();
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        text.text = damage.ToString();
-        alpha = text.color;
-        Invoke("DestroyObject", destroyTime);
     }
 
     // Update is called once per frame
@@ -35,20 +28,29 @@ public class DamageText : MonoBehaviour
     
     private void DestroyObject()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
-    public void SetTextColor(EnchantType type = EnchantType.None)
+    public void SetTextColor(EnchantType type = EnchantType.None, bool isPlayer = false)
     {
-        switch(type)
+        if (isPlayer)
+            text.color = playerColor;
+        else
+            text.color = initColor;
+
+        switch (type)
         {
             case  EnchantType.None:
-                    break;
+                break;
             case EnchantType.Poison:
                 text.color = Color.magenta;
                 break;
             default:
                 break;
         }
+
+        text.text = damage.ToString();
+        alpha = text.color;
+        Invoke("DestroyObject", destroyTime);
     }
 }

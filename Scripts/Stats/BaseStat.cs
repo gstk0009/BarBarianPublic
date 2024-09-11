@@ -32,7 +32,7 @@ public class BaseStat : MonoBehaviour, IDamagable
         }
     }
 
-    public virtual void TakeDamage(float damageAmount, EnchantType type = EnchantType.None)
+    public virtual void TakeDamage(float damageAmount,  bool isSkill = false, EnchantType type = EnchantType.None)
     {
 
     }

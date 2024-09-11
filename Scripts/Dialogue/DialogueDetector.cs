@@ -14,7 +14,7 @@ public class DialogueDetector : MonoBehaviour
         overlapCirclePosition = new Vector2(transform.position.x, transform.position.y + 0.15f);
         var detectedObj = Physics2D.OverlapCircle(overlapCirclePosition, detectRange, detectLayer);
 
-        if (detectedObj != null )
+        if (detectedObj != null && !DungeonTutorialBase.isTutorialing)
         {
             int obejctLayer = detectedObj.gameObject.layer;
 
@@ -23,12 +23,12 @@ public class DialogueDetector : MonoBehaviour
 
             if (obejctLayer == (int)LayerType.Interaction_NPC)
             {
-                GameManager.Instance.DialogueController.ShowDialogueWithNPC(detectedResult);
+                GameManager.Instance.DialogueController.ShowDialogueWithDetectedObj(detectedResult);
                 GameManager.Instance.DialogueController.UpdateInteractionUI(true, InteractiveNPC.speakerSO.speaker, true);
             }
             else if (obejctLayer == (int)LayerType.Interaction_Obj)
             {
-                GameManager.Instance.DialogueController.ShowDialogueWithObj(detectedResult);
+                GameManager.Instance.DialogueController.ShowDialogueWithDetectedObj(detectedResult);
                 GameManager.Instance.DialogueController.UpdateInteractionUI(true, InteractiveNPC.speakerSO.speaker);
             }
         }

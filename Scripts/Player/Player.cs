@@ -50,8 +50,11 @@ public class Player : DungeonThings
         }
 
         playerInputController = GetComponent<PlayerInputController>();
+
         inventory = GetComponent<Inventory>();
-        inventoryUIComponent = inventoryUI.GetComponentInParent<InventoryUI>();
+        if(inventoryUI!= null)
+            inventoryUIComponent = inventoryUI.GetComponentInParent<InventoryUI>();
+
         playerStat = GetComponent<PlayerStat>();
         playerStateMachine = new PlayerStateMachine(this);
         AnimationData = new PlayerAndNpcAnimationData();
@@ -74,8 +77,12 @@ public class Player : DungeonThings
     private void Start()
     {
         playerStateMachine.ChangeState(playerStateMachine.IdleState);
-        playerStrTxt.text = playerStat.STR.curValue.ToString();
-        playerDefTxt.text = playerStat.Def.curValue.ToString();
+        if(playerStrTxt != null)
+        {
+            playerStrTxt.text = playerStat.STR.curValue.ToString();
+            playerDefTxt.text = playerStat.Def.curValue.ToString();
+        }
+        
 
         if(DataManager.Instance.setPlayerInit)
         {
@@ -178,5 +185,10 @@ public class Player : DungeonThings
     public void SetPlayerStatUIDef()
     {
         playerDefTxt.text = playerStat.Def.curValue.ToString();
+    }
+
+    public Vector2 PlayerPositionVector2()
+    {
+        return transform.position;
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -19,7 +20,7 @@ public class PlayerStat : BaseStat
     public Condition Luk;
     public Condition Tired;
     public Condition Hungry;
-
+    public Condition Stamina;
 
     private void Awake()
     {
@@ -42,6 +43,7 @@ public class PlayerStat : BaseStat
             Dex = new Condition(playerSO.DEX);
             Luk = new Condition(playerSO.LCK);
             Tired = new Condition(playerSO.TiredGuage);
+            Stamina = new Condition(playerSO.Stamina);
             Hungry = new Condition(playerSO.HungryGuage);
 
             //curValue가 0부터 시작해야 하는 스탯들의 값을 설정합니다.
@@ -57,18 +59,38 @@ public class PlayerStat : BaseStat
 
 
     //Player 피격 이벤트
-    public override void TakeDamage(float damageAmount, EnchantType type = EnchantType.None)
+    public override void TakeDamage(float damageAmount, bool isSkill = false, EnchantType type = EnchantType.None)
     {
         base.TakeDamage(damageAmount);
 
         if (!canDamaged) return;
 
-        float realDamage = Mathf.Max(damageAmount - Def.curValue/2, 1); //방어력이 공격력보다 높으면, 1데미지만 들어가도록 계산
+        float realDamage = Mathf.Max(damageAmount - Def.curValue / 2, 1); //방어력이 공격력보다 높으면, 1데미지만 들어가도록 계산
         HP.SubtractCurValue(realDamage); //damaageAmount 대신 경감데미지를 넣는다
-       
 
-        if (HP.curValue <= 0)
+        if (!isSkill)
         {
+            GameObject createDamageText = ObjectPool.Instance.SpawnFromPool("DamageText");
+            createDamageText.transform.position = gameObject.transform.position;
+            DamageTextManager Damage = createDamageText.GetComponent<DamageTextManager>();
+
+            Damage.damage = (int)realDamage;
+            Damage.SetTextColor(type, true);
+
+            createDamageText.SetActive(true);
+
+            GameManager.Instance.cameraController.CameraShake(0.5f, 0.05f);
+        }
+
+        if ((int)HP.curValue <= 0)
+        {
+            if (DungeonTutorialBase.isTutorialing)
+            {
+                HP.curValue = 40; 
+                StartCoroutine(DT_CheckSkilledMonsters.instance.ShowUnClearDialogue());
+                return;
+            }
+
             Player.Instance.isPlayerInteracting = true;
             PlayerBaseState.isAttackState = false;
             Player.Instance.playerStateMachine.ChangeState(Player.Instance.playerStateMachine.DeadState);

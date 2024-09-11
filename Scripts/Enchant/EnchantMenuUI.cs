@@ -9,6 +9,7 @@ public class EnchantMenuUI : MonoBehaviour
     [SerializeField] RectTransform slotArea;
     [SerializeField] float yOffset;
     [SerializeField] public InventoryUI inventoryUI;
+    [SerializeField] private GameObject equipmentSlotPosition;
     public TextMeshProUGUI guideText;
     public EnchantItemSlot weaponSlot;
     public EnchantItemSlot materialSlot;
@@ -111,6 +112,7 @@ public class EnchantMenuUI : MonoBehaviour
                 pos.y -= yOffset;
             rt.anchoredPosition = pos;
         }
+        equipmentSlotPosition.transform.SetAsLastSibling();
     }
 
     public IEnumerator MoveEnchantSlotItemToInventory(EnchantItemSlot slot, bool isResultItem = false)

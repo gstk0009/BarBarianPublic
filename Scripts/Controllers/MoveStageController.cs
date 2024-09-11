@@ -12,13 +12,13 @@ public class MoveStageController : MonoBehaviour
 
     public static bool isBossStage = false;
     public Stage currentStage;
-    
-    public void MoveToNextStage(PortalType portalType)
+
+    public void MoveToNextStage(PortalType portalType, bool isFromScaffold = false)
     {
-        StartCoroutine(FadeOutAndMoveStage(portalType));
+        StartCoroutine(FadeOutAndMoveStage(portalType, isFromScaffold));
     }
 
-    IEnumerator FadeOutAndMoveStage(PortalType portalType)
+    IEnumerator FadeOutAndMoveStage(PortalType portalType, bool isFromScaffold = false)
     {
         if (portalType != PortalType.VillagePortal && portalType != PortalType.VillageToDungeonPortal 
             && portalType != PortalType.NextDungeonPortal)
@@ -35,7 +35,7 @@ public class MoveStageController : MonoBehaviour
 
             SceneTransitionManager.Instance.LoadScene((int)SceneNumber.DugeonScene_1); // 여기에 던전 초기 세팅 있음
         }
-        else if (portalType == PortalType.NextDungeonPortal)
+        else if (portalType == PortalType.NextDungeonPortal )
         {
             ClearStageObjs();
             GameManager.Instance.SpawnersManager.NPCSpawner.ResetData();
@@ -48,7 +48,7 @@ public class MoveStageController : MonoBehaviour
 
             SceneTransitionManager.Instance.LoadScene((int)SceneNumber.DugeonScene_2);
         }
-        else if (portalType == PortalType.StagePortal) // 던전 씬 내부에서 stage 이동
+        else if (portalType == PortalType.StagePortal && !DungeonTutorialBase.isTutorialing) 
         {
             SetDungeonStage();
 
@@ -59,7 +59,6 @@ public class MoveStageController : MonoBehaviour
         }
         else if (portalType == PortalType.PreStagePortal)
         {
-            // 여기서 CurrentstageIdx가 0이면 Fade 재생시켜줘야함 
             if ((GameManager.Instance.CurrentStageIdx - 1) >= 0)
             {
                 GameManager.Instance.CurrentStageIdx -= 2;
@@ -75,6 +74,10 @@ public class MoveStageController : MonoBehaviour
         else if(portalType == PortalType.VillageDownTownPortal)
         {
             GameManager.Instance.CurrentStageIdx = 0;
+            if(isFromScaffold)
+            {
+
+            }
             SettingCameraPos();
         }
         else if (portalType == PortalType.ScaffoldPortal)
@@ -95,7 +98,6 @@ public class MoveStageController : MonoBehaviour
             Player.Instance.isPlayerInteracting = false;
 
         }
-
     }
     void MoveToVillageStage()
     {

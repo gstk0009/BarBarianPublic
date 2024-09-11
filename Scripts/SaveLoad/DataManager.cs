@@ -11,7 +11,7 @@ public class SaveData
     public int tryCnt = 0; // 던전 시도 횟수
     public int lifeCnt = 1; // 게임 시도 횟수(플레이어 사망 횟수)
     public int clearCnt = 0; // 보스 클리어 횟수 
-
+    public int lastPayment = 0; // 마지막 세금 납부일
     public int gold = 1000;
     public string exitTime;
     public int[] clockSystem = new int[] { 7, 0, 1 }; // hour, minute, dDay
@@ -23,6 +23,11 @@ public class SaveData
     // 인벤토리 아이템 정보
     public List<InventoryItemData> inventoryItemDatas = new List<InventoryItemData>();
     public int inventoryCapacity = 11; // 가방 초기 세팅
+
+    public bool SetTutorial = false;
+
+    // 순서대로 세금, 던전, 강화, 상점 튜토리얼이 들어감 
+    public List<bool> tutorialClearInfo = new List<bool>(new bool[] { false, false, false, false });
 }
 
 public class DataManager : Singleton<DataManager>
@@ -31,7 +36,8 @@ public class DataManager : Singleton<DataManager>
 
     public SaveData currentPlayer = new SaveData();
     public bool setInventoryInit = false;
-    public bool setPlayerInit = false; 
+    public bool setPlayerInit = false;
+
 
     protected override void Awake()
     {
@@ -46,6 +52,12 @@ public class DataManager : Singleton<DataManager>
         PlayerPrefs.SetFloat("PlayerPosX_" + currentSaveDataSlot, currentPlayer.playerPos.x);
         PlayerPrefs.SetFloat("PlayerPosY_" + currentSaveDataSlot, currentPlayer.playerPos.y);
         PlayerPrefs.SetFloat("PlayerPosZ_" + currentSaveDataSlot, currentPlayer.playerPos.z);
+
+        // SetTutorial 저장
+        PlayerPrefs.SetInt("SetTutorial_" + currentSaveDataSlot, currentPlayer.SetTutorial ? 1 : 0);
+
+        // tutorialClearInfo를 문자열로 변환해서 저장
+        PlayerPrefs.SetString("TutorialClearInfo_" + currentSaveDataSlot, BoolListToString(currentPlayer.tutorialClearInfo));
 
         PlayerPrefs.Save();
     }
@@ -62,7 +74,40 @@ public class DataManager : Singleton<DataManager>
             float y = PlayerPrefs.GetFloat("PlayerPosY_" + currentSaveDataSlot, 0f);
             float z = PlayerPrefs.GetFloat("PlayerPosZ_" + currentSaveDataSlot, 0f);
             currentPlayer.playerPos = new Vector3(x, y, z);
+
+            currentPlayer.SetTutorial = PlayerPrefs.GetInt("SetTutorial_" + currentSaveDataSlot, 0) == 1;
+
+            // tutorialClearInfo를 불러와서 List<bool>로 변환
+            string tutorialInfoString = PlayerPrefs.GetString("TutorialClearInfo_" + currentSaveDataSlot, "");
+            currentPlayer.tutorialClearInfo = StringToBoolList(tutorialInfoString);
         }
+    }
+
+    private string BoolListToString(List<bool> boolList)
+    {
+        string result = "";
+        foreach (bool b in boolList)
+        {
+            result += b ? "1" : "0";
+        }
+        return result;
+    }
+
+    private List<bool> StringToBoolList(string str)
+    {
+        List<bool> boolList = new List<bool>();
+        foreach (char c in str)
+        {
+            if (c == '1')
+            {
+                boolList.Add(true);
+            }
+            else if (c == '0')
+            {
+                boolList.Add(false);
+            }
+        }
+        return boolList;
     }
 
     public void DataClear()
@@ -76,6 +121,10 @@ public class DataManager : Singleton<DataManager>
         PlayerPrefs.DeleteKey("PlayerPosX_" + currentSaveDataSlot);
         PlayerPrefs.DeleteKey("PlayerPosY_" + currentSaveDataSlot);
         PlayerPrefs.DeleteKey("PlayerPosZ_" + currentSaveDataSlot);
+
+        PlayerPrefs.DeleteKey("SetTutorial_" + currentSaveDataSlot);
+        PlayerPrefs.DeleteKey("TutorialClearInfo_" + currentSaveDataSlot);
+
         DataClear();
     }
 
@@ -117,6 +166,9 @@ public class DataManager : Singleton<DataManager>
         string lastExitTime = currentPlayer.exitTime;
         int[] lastClockSystem = currentPlayer.clockSystem;
 
+        bool lastSetTutorial = currentPlayer.SetTutorial;
+        List<bool> lastTutorialClearInfo = currentPlayer.tutorialClearInfo;
+
         Player.Instance.Animation.SetEmptyTextureAll();
 
         // 새로운 SaveData로 초기화
@@ -131,15 +183,20 @@ public class DataManager : Singleton<DataManager>
         currentPlayer.clockSystem = lastClockSystem;
 
         currentPlayer.gold = playerGold / 2;
+
+        currentPlayer.SetTutorial = lastSetTutorial;
+        currentPlayer.tutorialClearInfo = lastTutorialClearInfo;
+
         Player.Instance.playerStat.InitializeStats();
 
         Player.Instance.SetPlayerStatUIDef();
         Player.Instance.SetPlayerStatUIStr();
 
-        Player.Instance.inventory.ClearInventory();
+        Player.Instance.inventory.ClearInventory(); 
         currentPlayer.inventoryItemDatas = new List<InventoryItemData>();
         currentPlayer.inventoryItemDatas = InventorySaver.Instance.GetInventoryData();
 
         SaveGame();
     }
+
 }

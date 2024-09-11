@@ -7,6 +7,7 @@ public class SelectSaveFiles : MonoBehaviour
 {
     public GameObject InputNameUI;
     public GameObject DeleteFileUI;
+    public GameObject TutorialStroyUI;
     public TextMeshProUGUI WarningText;
 
     public TextMeshProUGUI[] slotText;
@@ -107,8 +108,17 @@ public class SelectSaveFiles : MonoBehaviour
 
     public void CreatePlayer(bool active)
     {
+        DataManager.Instance.setPlayerInit = true;
+
         isCreatingPlayer = active;
         InputNameUI.SetActive(active);
+    }
+    public void ShowTutorialStroyUI(bool active)
+    {
+        isCreatingPlayer = active;
+        DataManager.Instance.currentPlayer.SetTutorial = active;
+        InputNameUI.SetActive(false);
+        TutorialStroyUI.SetActive(active);
     }
 
     public void DeleteSaveDataUI(int num)
@@ -163,4 +173,5 @@ public class SelectSaveFiles : MonoBehaviour
             btn.interactable = false;
         }
     }
+
 }

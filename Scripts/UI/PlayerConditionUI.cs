@@ -1,45 +1,44 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerConditionUI : MonoBehaviour
+public class PlayerConditionUI : Singleton<PlayerConditionUI>
 {
     public Image hpSlider;
+    public Image staminaSlider;
+    public GameObject Atkstate;
+
     public Slider expSlider;
     public Player player;
     public TextMeshProUGUI hpText;
-
-    private static PlayerConditionUI instance;
-
-    void Awake()
-    {
-        // 싱글톤 패턴 적용
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject); // 씬이 로드될 때 파괴되지 않도록 설정
-        }
-        else
-        {
-            Destroy(gameObject); // 중복된 인스턴스는 파괴
-        }
-    }
+    public TextMeshProUGUI nickNameText;
 
     private void Start()
     {
         SetMaxHP();
-        SetMaxExp();
+        SetNickName();
+        //SetMaxExp();
+    }
+
+    private void SetNickName()
+    {
+        nickNameText.text = DataManager.Instance.currentPlayer.name;
     }
 
     private void Update()
     {
         UpdateHPSlider();
+        UpdateStaminaSlider();
         //UpdateExpSlider();
     }
 
-
+    public void UpdateStaminaSlider()
+    {
+        if (staminaSlider != null)
+        {
+            staminaSlider.fillAmount = player.playerStat.Stamina.curValue/ player.playerStat.Stamina.maxValue;
+        }
+    }
     public void SetMaxHP()
     {
         if (hpSlider != null)
@@ -72,5 +71,13 @@ public class PlayerConditionUI : MonoBehaviour
         //    hpSlider.fillAmount = player.stats.HP.curValue;
     }
 
+    public void SetAtkState()
+    {
+        Atkstate.SetActive(true);
+    }
+    public void SetIdleState()
+    {
+        Atkstate.SetActive(false);
+    }
 
 }

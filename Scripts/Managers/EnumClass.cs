@@ -42,6 +42,14 @@ enum SceneNumber
     EndScene, 
 }
 
+public enum TutorialType
+{
+    TaxSystem,
+    DungeonSystem,
+    ShopSystem, 
+    EnchantSystem,
+}
+
 public enum PortalType
 {
     StagePortal, // 일반 스테이지 포탈

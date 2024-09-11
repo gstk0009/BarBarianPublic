@@ -48,7 +48,7 @@ public class NPCStat : BaseStat
     }
 
     //NPC 피격 이벤트
-    public override void TakeDamage(float damageAmount, EnchantType type)
+    public override void TakeDamage(float damageAmount, bool isSkill = false, EnchantType type = EnchantType.None)
     {
         base.TakeDamage(damageAmount);
 

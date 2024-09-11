@@ -13,5 +13,6 @@ public class PlayerSO : ScriptableObject
     [field: SerializeField] public int HP { get; private set; } = 100;
     [field: SerializeField] public int MP { get; private set; } = 50;
     [field: SerializeField] public float TiredGuage { get; private set; } = 0;
+    [field:SerializeField] public float Stamina { get; private set; } = 100;
     [field: SerializeField] public float HungryGuage { get; private set; } = 80f;
 }

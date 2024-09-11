@@ -93,15 +93,4 @@ public class EnchantItemSlot : BaseItemSlotUI
 
         return false;
     }
-
-    public override void RemoveItem()
-    {
-        if (iconImage != null)
-            iconImage.sprite = null;
-        itemData = null;
-        itemAmount = 0;
-
-        HideIcon();
-        HideText();
-    }
 }

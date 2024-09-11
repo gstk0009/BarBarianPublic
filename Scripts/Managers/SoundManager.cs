@@ -21,6 +21,8 @@ public enum SoundEffects
     TypeDialogue,
     Hammer,
     SpearSkill,
+    WandSkill,
+    BowSkill,
 }
 
 public class SoundManager : Singleton<SoundManager>
@@ -198,7 +200,7 @@ public class SoundManager : Singleton<SoundManager>
 
     public void SetCurDungeonBGM()
     {
-        if(MoveStageController.isBossStage)
+        if(!MoveStageController.isBossStage)
         {
             if (GameManager.Instance.MainStageIdx == 1)
             {

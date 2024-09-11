@@ -48,12 +48,10 @@ public class NPCSpawner : BaseSpawner
 
         if (CanInteractiveNPC != null)
         {
+            Debug.Log(GameManager.Instance.NPCTargetSystem.NPCIndex.Count);
             // 현재 동료의 수가 4보다 작다면, 
             if (GameManager.Instance.NPCTargetSystem.NPCIndex.Count < 4)
             {
-                // 현재 동료 npc 리스트에 추가
-                GameManager.Instance.NPCTargetSystem.NPCIndex.Add(CanInteractiveNPC[GameManager.Instance.CurrentStageIdx - 1]);
-
                 // NPC 정보 UI 생성
                 GameObject npcInfo = Instantiate(NPCInfoPrefab);
                 npcInfo.GetComponent<NPCInfoUI>().npc = npc;
@@ -93,8 +91,10 @@ public class NPCSpawner : BaseSpawner
 
             npc.Target = Player.Instance.gameObject;
 
-
-
+            if(npc.npcHpBar != null)
+            {
+                npc.npcHpBar.SetActive(true);
+            }
         }
     }
 
@@ -158,6 +158,7 @@ public class NPCSpawner : BaseSpawner
 
         FriendlyNPCs.Clear();
         CanInteractiveNPC.Clear();
+        GameManager.Instance.NPCTargetSystem.NPCIndex.Clear();
         spawnCount = 0;
     }
 }

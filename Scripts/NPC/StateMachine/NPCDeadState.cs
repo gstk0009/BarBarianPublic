@@ -11,12 +11,12 @@ public class NPCDeadState : NPCBaseState
     public override void Enter()
     {
         base.Enter();
+        SoundManager.Instance.SetCurDungeonBGM();
         stateMachine.NPC.isDeadState = true;
         timer = 0;
         delayTime = 1f;
         stateMachine.NPC.Animation.PlayAnimation(stateMachine.NPC.AnimationData.CombatDead);
 
-        SoundManager.Instance.SetCurDungeonBGM();
     }
 
     public override void Exit()
