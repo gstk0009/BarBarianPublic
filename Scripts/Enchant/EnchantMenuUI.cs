@@ -15,6 +15,7 @@ public class EnchantMenuUI : MonoBehaviour
     public EnchantItemSlot materialSlot;
     public EnchantItemSlot resultSlot;
 
+    private int maxEnchantLevel = 9;
     string initText = "버튼을 눌러 장비 강화를 시도하세요!";
     bool isEnabled = false;
     WaitForSeconds wfs_1 = new WaitForSeconds(1);
@@ -87,10 +88,10 @@ public class EnchantMenuUI : MonoBehaviour
             slot.transform.localScale = Vector3.one;
             if (slot.itemData != null && (EnchantMaterial.None == slot.itemData.enchantMaterial))
                 slot.SetItemAccessibleState(false);
-            RectTransform rt = slot.GetComponent<RectTransform>();
-            Vector2 pos = rt.anchoredPosition;
+
+            Vector2 pos = slot.gameObject.transform.localPosition;
             pos.y += yOffset;
-            rt.anchoredPosition = pos;
+            slot.gameObject.transform.localPosition = pos;
         }
         isEnabled = true;
     }
@@ -106,11 +107,10 @@ public class EnchantMenuUI : MonoBehaviour
             if (slot.itemData != null)
                 slot.SetItemAccessibleState(true);
 
-            RectTransform rt = slot.GetComponent<RectTransform>();
-            Vector2 pos = rt.anchoredPosition;
+            Vector2 pos = slot.gameObject.transform.localPosition;
             if (isEnabled)
                 pos.y -= yOffset;
-            rt.anchoredPosition = pos;
+            slot.gameObject.transform.localPosition = pos;
         }
         equipmentSlotPosition.transform.SetAsLastSibling();
     }
@@ -151,7 +151,7 @@ public class EnchantMenuUI : MonoBehaviour
         if (weaponSlot.HasItem && materialSlot.HasItem)
         {
             EquipmentItem _wi = (EquipmentItem)EnchantDragAndDrop.instance.enchantSlotItems[0];
-            if(_wi.EnchantLevel > 9)
+            if(_wi.EnchantLevel > maxEnchantLevel)
             {
                 guideText.text = "장비가 이미 최대 강화 수치에 달했습니다!";
                 return;

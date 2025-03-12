@@ -1,11 +1,10 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class BuyOrSellManager : MonoBehaviour
 {
     [SerializeField] private ShopInventoryUI shopInventoryUI;
-    private Coroutine SubtractGold;
-    private Coroutine plusGold;
+    private int maxCount = 10;
 
     private void Start()
     {
@@ -16,53 +15,43 @@ public class BuyOrSellManager : MonoBehaviour
 
     public void Buy(int initGold, int afterGold, ShopInventoryMouseEvent BuyEvent)
     {
-        SubtractGold = StartCoroutine(SubtractPlayerGold(initGold, afterGold, BuyEvent));
+        subtractPlayerGold(initGold, afterGold, BuyEvent).Forget();
     }
 
     public void Sell(int initGold, int afterGold, SellInventoryMouseEvent SellEvent)
     {
-        plusGold = StartCoroutine(PlusPlayerGold(initGold, afterGold, SellEvent));
+        plusPlayerGold(initGold, afterGold, SellEvent).Forget();
     }
 
-    IEnumerator SubtractPlayerGold(int initGold, int afterGold, ShopInventoryMouseEvent BuyEvent)
+    private async UniTask subtractPlayerGold(int initGold, int afterGold, ShopInventoryMouseEvent BuyEvent)
     {
-        int before = initGold;
-        int after = afterGold;
-        while (BuyEvent.isBuying)
+        int beforeGold = initGold;
+        int subRange = (initGold - afterGold) / maxCount;
+
+        for (int count = 0; count < maxCount; count++)
         {
-            if (before - after > 0)
-            {
-                before -= 10;
-                shopInventoryUI.SetPlayerGold(before);
-            }
-            else
-            {
-                DataManager.Instance.currentPlayer.gold = after;
-                BuyEvent.isBuying = false;
-            }
-            yield return null;
+            beforeGold -= subRange;
+            shopInventoryUI.SetPlayerGold(beforeGold);
+            await UniTask.Yield();
         }
-        StopCoroutine(SubtractGold);
+
+        DataManager.Instance.currentPlayer.gold = beforeGold;
+        BuyEvent.isBuying = false;
     }
 
-    IEnumerator PlusPlayerGold(int initGold, int afterGold, SellInventoryMouseEvent SellEvent)
+    private async UniTask plusPlayerGold(int initGold, int afterGold, SellInventoryMouseEvent SellEvent)
     {
-        int before = initGold;
-        int after = afterGold;
-        while (SellEvent.isSelling)
+        int beforeGold = initGold;
+        int addRange = (afterGold - initGold) / maxCount;
+
+        for (int count = 0; count < maxCount; count++)
         {
-            if (before < after)
-            {
-                before += 10;
-                shopInventoryUI.SetPlayerGold(before);
-            }
-            else
-            {
-                DataManager.Instance.currentPlayer.gold = after;
-                SellEvent.isSelling = false;
-            }
-            yield return null;
+            beforeGold += addRange;
+            shopInventoryUI.SetPlayerGold(beforeGold);
+            await UniTask.Yield();
         }
-        StopCoroutine(plusGold);
+
+        DataManager.Instance.currentPlayer.gold = beforeGold;
+        SellEvent.isSelling = false;
     }
 }

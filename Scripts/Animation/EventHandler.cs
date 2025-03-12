@@ -1,5 +1,5 @@
 public delegate void MovementDelegate(string playAnim);
-public delegate void MovementInputXY(float inputX, float inputY, Direction direction, float speed);
+public delegate void MovementInputXY(float inputX, float inputY, float speed);
 
 public static class EventHandler
 {
@@ -42,27 +42,27 @@ public static class EventHandler
         }
     }
 
-    public static void PlayerCallMovementInputEvent(float inputX, float inputY, Direction direction, float speed)
+    public static void PlayerCallMovementInputEvent(float inputX, float inputY, float speed)
     {
         if (PlayerMovementInputEvent != null)
-            PlayerMovementInputEvent(inputX, inputY, direction, speed);
+            PlayerMovementInputEvent(inputX, inputY, speed);
     }
 
-    public static void NpcCallMovementInputEvent(float inputX, float inputY, Direction direction, float speed, NPCType npcType)
+    public static void NpcCallMovementInputEvent(float inputX, float inputY, float speed, NPCType npcType)
     {
         switch (npcType)
         {
             case NPCType.Spear:
                 if (SpearNpcMovementInputEvent != null)
-                    SpearNpcMovementInputEvent(inputX, inputY, direction, speed);
+                    SpearNpcMovementInputEvent(inputX, inputY, speed);
                 break;
             case NPCType.Bow:
                 if (BowNpcMovementInputEvent != null)
-                    BowNpcMovementInputEvent(inputX, inputY, direction, speed);
+                    BowNpcMovementInputEvent(inputX, inputY, speed);
                 break;
             case NPCType.Wand:
                 if (WandNpcMovementInputEvent != null)
-                    WandNpcMovementInputEvent(inputX, inputY, direction, speed);
+                    WandNpcMovementInputEvent(inputX, inputY, speed);
                 break;
         }
     }

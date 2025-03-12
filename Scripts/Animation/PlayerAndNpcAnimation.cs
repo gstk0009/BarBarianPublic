@@ -1,4 +1,5 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -48,8 +49,6 @@ public class PlayerAndNpcAnimation : MonoBehaviour
     [Header("Location of the sprites used for the animation (inside 'Assets/Resouces')")]
     public string SpriteSetPath;
 
-    WaitForSeconds delayTime = new WaitForSeconds(0.3f);
-
     private void Start()
     {
         DirectionWay = Direction.down;
@@ -59,7 +58,7 @@ public class PlayerAndNpcAnimation : MonoBehaviour
 
     public void PlayerAnimUpdate()
     {
-        EventHandler.PlayerCallMovementInputEvent(xInput, yInput, DirectionWay, attackSpeed);
+        EventHandler.PlayerCallMovementInputEvent(xInput, yInput, attackSpeed);
         if (playAnim != null)
         {
             EventHandler.PlayerCallMovementEvent(playAnim);
@@ -69,7 +68,7 @@ public class PlayerAndNpcAnimation : MonoBehaviour
 
     public void NpcAnimUpdate(NPCType npcType)
     {
-        EventHandler.NpcCallMovementInputEvent(xInput, yInput, DirectionWay, attackSpeed, npcType);
+        EventHandler.NpcCallMovementInputEvent(xInput, yInput, attackSpeed, npcType);
         if (playAnim != null)
         {
             EventHandler.NpcCallMovementEvent(playAnim, npcType);
@@ -162,18 +161,18 @@ public class PlayerAndNpcAnimation : MonoBehaviour
         }
 
         //Combat Textures
-        StartCoroutine(combatTexture(layer, fileBasePath, filePath, textPaths, texture));
+        combatTexture(layer, fileBasePath, filePath, textPaths, texture).Forget();
 
         //Base Textures
         if (!combatAnimation)
         {
-            StartCoroutine(BaseTexture(layer, fileBasePath, filePath, textPaths, texture));
+           BaseTextrue(layer, fileBasePath, filePath, textPaths, texture).Forget();
         }
 
         isSetEmpty = false;
     }
 
-    IEnumerator combatTexture(string layer, string fileBasePath, string filePath, Dictionary<string, string> textPaths, Texture2D texture)
+    private async UniTask combatTexture(string layer, string fileBasePath, string filePath, Dictionary<string, string> textPaths, Texture2D texture)
     {
         Texture2D pONE1Texture;
         Texture2D pONE2Texture;
@@ -191,23 +190,14 @@ public class PlayerAndNpcAnimation : MonoBehaviour
         if (!isSetEmpty)
         {
             pONE1Texture = SetTexture(fileBasePath, textPaths, "pONE1", true);
-            yield return null;
             pONE2Texture = SetTexture(fileBasePath, textPaths, "pONE2", true);
-            yield return null;
             pONE3Texture = SetTexture(fileBasePath, textPaths, "pONE3", true);
-            yield return null;
             pPOL1Texture = SetTexture(fileBasePath, textPaths, "pPOL1", true);
-            yield return null;
             pPOL2Texture = SetTexture(fileBasePath, textPaths, "pPOL2", true);
-            yield return null;
             pPOL3Texture = SetTexture(fileBasePath, textPaths, "pPOL3", true);
-            yield return null;
             pBOW1Texture = SetTexture(fileBasePath, textPaths, "pBOW1", true);
-            yield return null;
             pBOW2Texture = SetTexture(fileBasePath, textPaths, "pBOW2", true);
-            yield return null;
             pBOW3Texture = SetTexture(fileBasePath, textPaths, "pBOW3", true);
-            yield return null;
         }
         else
         {
@@ -222,41 +212,44 @@ public class PlayerAndNpcAnimation : MonoBehaviour
             pBOW3Texture = texture;
         }
 
-        yield return null;
-
         if (pONE1Texture != null)
         {
-            StartCoroutine(FillPlayerTextures(layer, pONE1Texture, "combat/pONE1"));
-            yield return null;
-            StartCoroutine(FillPlayerTextures(layer, pONE2Texture, "combat/pONE2"));
-            yield return null;
+            FillPlayerTextures(layer, pONE1Texture, "combat/pONE1").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pONE1Texture, "combat/pONE1"));
+
+            FillPlayerTextures(layer, pONE2Texture, "combat/pONE2").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pONE2Texture, "combat/pONE2"));
         }
         if (pPOL1Texture != null)
         {
-            StartCoroutine(FillPlayerTextures(layer, pPOL1Texture, "combat/pPOL1"));
-            yield return null;
-            StartCoroutine(FillPlayerTextures(layer, pPOL2Texture, "combat/pPOL2"));
-            yield return null;
-            StartCoroutine(FillPlayerTextures(layer, pPOL3Texture, "combat/pPOL3"));
-            yield return null;
+            FillPlayerTextures(layer, pPOL1Texture, "combat/pPOL1").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pPOL1Texture, "combat/pPOL1"));
+
+            FillPlayerTextures(layer, pPOL2Texture, "combat/pPOL2").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pPOL2Texture, "combat/pPOL2"));
+
+            FillPlayerTextures(layer, pPOL3Texture, "combat/pPOL3").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pPOL3Texture, "combat/pPOL3"));
         }
         if (pBOW1Texture != null)
         {
-            StartCoroutine(FillPlayerTextures(layer, pBOW1Texture, "combat/pBOW1"));
-            yield return null;
-            StartCoroutine(FillPlayerTextures(layer, pBOW2Texture, "combat/pBOW2"));
-            yield return null;
-            StartCoroutine(FillPlayerTextures(layer, pBOW3Texture, "combat/pBOW3"));
-            yield return null;
+            FillPlayerTextures(layer, pBOW1Texture, "combat/pBOW1").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pBOW1Texture, "combat/pBOW1"));
+
+            FillPlayerTextures(layer, pBOW2Texture, "combat/pBOW2").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pBOW2Texture, "combat/pBOW2"));
+
+            FillPlayerTextures(layer, pBOW3Texture, "combat/pBOW3").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pBOW3Texture, "combat/pBOW3"));
         }
         if (pONE3Texture != null)
         {
-            StartCoroutine(FillPlayerTextures(layer, pONE3Texture, "combat/pONE3"));
-            yield return null;
+            FillPlayerTextures(layer, pONE3Texture, "combat/pONE3").Forget();
+            await UniTask.WhenAll(FillPlayerTextures(layer, pONE3Texture, "combat/pONE3"));
         }
     }
 
-    IEnumerator BaseTexture(string layer, string fileBasePath, string filePath, Dictionary<string, string> textPaths, Texture2D texture)
+    private async UniTask BaseTextrue(string layer, string fileBasePath, string filePath, Dictionary<string, string> textPaths, Texture2D texture)
     {
         Texture2D p1Texture;
         Texture2D p1BTexture;
@@ -268,15 +261,11 @@ public class PlayerAndNpcAnimation : MonoBehaviour
         if (!isSetEmpty)
         {
             p1Texture = SetTexture(fileBasePath, textPaths, "p1", false);
-            yield return null;
             p1BTexture = SetTexture(fileBasePath, textPaths, "p1B", false);
-            yield return null;
             p1CTexture = SetTexture(fileBasePath, textPaths, "p1C", false);
-            yield return null;
             p2Texture = SetTexture(fileBasePath, textPaths, "p2", false);
-            yield return null;
             p3Texture = SetTexture(fileBasePath, textPaths, "p3", false);
-            yield return null;
+
             if (layer == "pritool")
             {
                 string fishing_test = filePath;
@@ -288,12 +277,7 @@ public class PlayerAndNpcAnimation : MonoBehaviour
                     p3Texture = Resources.Load<Texture2D>(fileBasePath + textPaths["p3"].Replace(replacer, "roda").Replace(".png", ""));
                 }
             }
-
-            yield return null;
-
             p4Texture = SetTexture(fileBasePath, textPaths, "p4", false);
-
-            yield return null;
         }
         else
         {
@@ -305,28 +289,29 @@ public class PlayerAndNpcAnimation : MonoBehaviour
             p4Texture = texture;
         }
 
-        yield return null;
+        FillPlayerTextures(layer, p1Texture, "p1").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p1Texture, "p1"));
 
-        StartCoroutine(FillPlayerTextures(layer, p1Texture, "p1"));
-        yield return null;
-        StartCoroutine(FillPlayerTextures(layer, p1BTexture, "p1B"));
-        yield return null;
-        StartCoroutine(FillPlayerTextures(layer, p1CTexture, "p1C"));
-        yield return null;
-        StartCoroutine(FillPlayerTextures(layer, p2Texture, "p2"));
-        yield return null;
-        StartCoroutine(FillPlayerTextures(layer, p3Texture, "p3"));
-        yield return null;
-        StartCoroutine(FillPlayerTextures(layer, p4Texture, "p4"));
-        yield return null;
+        FillPlayerTextures(layer, p1BTexture, "p1B").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p1BTexture, "p1B"));
+
+        FillPlayerTextures(layer, p1CTexture, "p1C").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p1CTexture, "p1C"));
+
+        FillPlayerTextures(layer, p2Texture, "p2").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p2Texture, "p2"));
+
+        FillPlayerTextures(layer, p3Texture, "p3").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p3Texture, "p3"));
+
+        FillPlayerTextures(layer, p4Texture, "p4").Forget();
+        await UniTask.WhenAll(FillPlayerTextures(layer, p4Texture, "p4"));
     }
 
-    IEnumerator FillPlayerTextures(string layer, Texture2D pTexture, string key)
+    private async UniTask FillPlayerTextures(string layer, Texture2D pTexture, string key)
     {
         if (SpriteSetPath.EndsWith("/")) SpriteSetPath = SpriteSetPath.TrimEnd('/');
         Texture2D originp1 = Resources.Load<Texture2D>(SpriteSetPath + "/" + key + "/" + layer);
-
-        yield return null;
 
         if (pTexture != null && originp1 != null)
         {
@@ -335,10 +320,10 @@ public class PlayerAndNpcAnimation : MonoBehaviour
             originp1.Apply();
         }
 
-        yield return null;
+        await UniTask.Delay(TimeSpan.FromSeconds(0.5f));
     }
 
-    private static Texture2D SetTexture(string fileBasePath, Dictionary<string, string> textPaths, string textureKey, bool combatAnimation)
+    private Texture2D SetTexture(string fileBasePath, Dictionary<string, string> textPaths, string textureKey, bool combatAnimation)
     {
         if (!fileBasePath.EndsWith("/")) fileBasePath += "/";
         Texture2D pTexture = null;
@@ -353,7 +338,7 @@ public class PlayerAndNpcAnimation : MonoBehaviour
         return pTexture;
     }
 
-    private static Dictionary<string, string> SetTextureFilePaths(string filePath, string[] partedName)
+    private Dictionary<string, string> SetTextureFilePaths(string filePath, string[] partedName)
     {
         Dictionary<string, string> textPaths = new Dictionary<string, string>()
         {
@@ -393,19 +378,19 @@ public class PlayerAndNpcAnimation : MonoBehaviour
         currentState = anim;
     }
 
-    public void SwapHatButton()
-    {
-        if (hat.activeInHierarchy)
-        {
-            hat.SetActive(false);
-            hair.SetActive(true);
-        }
-        else
-        {
-            hat.SetActive(true);
-            hair.SetActive(false);
-        }
-    }
+    //public void SwapHatButton()
+    //{
+    //    if (hat.activeInHierarchy)
+    //    {
+    //        hat.SetActive(false);
+    //        hair.SetActive(true);
+    //    }
+    //    else
+    //    {
+    //        hat.SetActive(true);
+    //        hair.SetActive(false);
+    //    }
+    //}
 
     private void MovementInput()
     {

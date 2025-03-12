@@ -27,11 +27,10 @@ public class SpearNpcAnimationController : MonoBehaviour
         animator.Play(playAnim, -1, 0f);
     }
 
-    public void SetAnimationInputParameters(float inputX, float inputY, Direction direction, float speed)
+    public void SetAnimationInputParameters(float inputX, float inputY, float speed)
     {
         animator.SetFloat("xInput", inputX);
         animator.SetFloat("yInput", inputY);
-        animator.SetInteger("direction", (int)direction);
         animator.SetFloat("AttackSpeed", speed);
     }
 }

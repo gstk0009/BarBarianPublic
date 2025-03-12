@@ -6,7 +6,7 @@ public class ShopInventoryUI : MonoBehaviour
 {
     [SerializeField] private ItemData[] sellingItems;
     [SerializeField] private TextMeshProUGUI playerGoldTxt;
-    [SerializeField] private GameObject shopSlotUIPrefab;
+    [SerializeField] private ShopItemSlotUI shopSlotUIPrefab;
     [SerializeField] private RectTransform contentsAreaRT;
     [SerializeField] private InventoryUI inventoryUI;
     [SerializeField] private RectTransform slotArea;
@@ -46,21 +46,18 @@ public class ShopInventoryUI : MonoBehaviour
         for (int i = 0; i < createShopItemsCount; i++)
         {
             // 각 슬롯을 개별적으로 인스턴스화
-            GameObject shopSlot = Instantiate(shopSlotUIPrefab);
-            ShopItemSlotUI shopItemSlot = shopSlot.GetComponent<ShopItemSlotUI>();
-            if (shopItemSlot == null)
+            ShopItemSlotUI shopSlot = Instantiate(shopSlotUIPrefab);
+            if (shopSlot == null)
             {
-                shopItemSlot = shopSlot.AddComponent<ShopItemSlotUI>();
+                shopSlot = shopSlot.gameObject.AddComponent<ShopItemSlotUI>();
             }
 
-           
-            shopItemSlot.SetItem(sellingItems[i]);
 
-            shopSlot.transform.localScale = Vector3.one;
-            shopSlotUIList.Add(shopItemSlot);
-            RectTransform rt = shopSlot.GetComponent<RectTransform>();
-            rt.SetParent(contentsAreaRT);
-            rt.localScale = Vector3.one;
+            shopSlot.SetItem(sellingItems[i]);
+
+            shopSlotUIList.Add(shopSlot);
+            shopSlot.gameObject.transform.SetParent(contentsAreaRT);
+            shopSlot.gameObject.transform.localScale = Vector3.one;
         }
     }
 
@@ -88,11 +85,10 @@ public class ShopInventoryUI : MonoBehaviour
             if (slot.itemData != null && (SellItem.Impossible == slot.itemData.Sell))
                 slot.SetItemAccessibleState(false);
 
-            RectTransform rt = slot.GetComponent<RectTransform>();
-            Vector2 pos = rt.anchoredPosition;
+            Vector2 pos = slot.gameObject.transform.localPosition;
             pos.x += xOffset;
             pos.y += yOffset;
-            rt.anchoredPosition = pos;
+            slot.gameObject.transform.localPosition = pos;
         }
     }
 
@@ -106,11 +102,10 @@ public class ShopInventoryUI : MonoBehaviour
             if (slot.itemData != null)
                 slot.SetItemAccessibleState(true);
 
-            RectTransform rt = slot.GetComponent<RectTransform>();
-            Vector2 pos = rt.anchoredPosition;
+            Vector2 pos = slot.gameObject.transform.localPosition;
             pos.x -= xOffset;
             pos.y -= yOffset;
-            rt.anchoredPosition = pos;
+            slot.gameObject.transform.localPosition = pos;
         }
         equipmentSlotPosition.transform.SetAsLastSibling();
     }
