@@ -8,12 +8,11 @@ public interface IState
     public void PhysicsUpdate();
 }
 
-// abstract class 튜터님께 여쭤보기
 public abstract class StateMachine
 {
     public IState currentState;
     public IState beforeState;
-    // protected IState currentState;
+    
     public void ChangeState(IState state)
     {
         currentState?.Exit();
